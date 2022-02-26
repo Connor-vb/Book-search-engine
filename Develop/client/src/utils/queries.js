@@ -1,10 +1,10 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_THOUGHTS = gql`
-  query thoughts($username: String) {
-    thoughts(username: $username) {
+export const QUERY_BOOKS = gql`
+  query books($username: String) {
+    books(username: $username) {
       _id
-      thoughtText
+      bookText
       createdAt
       username
       reactionCount
@@ -18,11 +18,11 @@ export const QUERY_THOUGHTS = gql`
   }
 `;
 
-export const QUERY_THOUGHT = gql`
-  query thought($id: ID!) {
-    thought(_id: $id) {
+export const QUERY_BOOK = gql`
+  query book($id: ID!) {
+    book(_id: $id) {
       _id
-      thoughtText
+      bookText
       createdAt
       username
       reactionCount
@@ -42,14 +42,14 @@ export const QUERY_USER = gql`
       _id
       username
       email
-      friendCount
-      friends {
+      bookCount
+      books {
         _id
         username
       }
-      thoughts {
+      books {
         _id
-        thoughtText
+        bookText
         createdAt
         reactionCount
       }
@@ -57,44 +57,5 @@ export const QUERY_USER = gql`
   }
 `;
 
-export const QUERY_ME = gql`
-  {
-    me {
-      _id
-      username
-      email
-      friendCount
-      thoughts {
-        _id
-        thoughtText
-        createdAt
-        reactionCount
-        reactions {
-          _id
-          createdAt
-          reactionBody
-          username
-        }
-      }
-      friends {
-        _id
-        username
-      }
-    }
-  }
-`;
 
-export const QUERY_ME_BASIC = gql`
-  {
-    me {
-      _id
-      username
-      email
-      friendCount
-      friends {
-        _id
-        username
-      }
-    }
-  }
-`;
+

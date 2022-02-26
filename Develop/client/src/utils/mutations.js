@@ -25,10 +25,10 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_BOOK = gql`
-  mutation addThought($thoughtText: String!) {
-    addThought(thoughtText: $thoughtText) {
+  mutation addBook($bookText: String!) {
+    addBook(bookText: $bookText) {
       _id
-      thoughtText
+      bookText
       createdAt
       username
       reactionCount
@@ -38,8 +38,6 @@ export const ADD_BOOK = gql`
     }
   }
 `;
-
-
 
 export const REMOVE_BOOK = gql`
   mutation removeBook($id: ID!) {
