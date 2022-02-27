@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Thought } = require('../models');
+const { User, Book } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
@@ -8,8 +8,8 @@ const resolvers = {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
-          .populate('thoughts')
-          .populate('friends');
+          .populate('books')
+          .populate('author');
 
         return userData;
       }
@@ -19,16 +19,16 @@ const resolvers = {
     users: async () => {
       return User.find()
         .select('-__v -password')
-        .populate('thoughts')
-        .populate('friends');
+        .populate('books')
+        .populate('author');
     },
     user: async (parent, { username }) => {
       return User.findOne({ username })
         .select('-__v -password')
-        .populate('friends')
-        .populate('thoughts');
+        .populate('author')
+        .populate('books');
     },
-    thoughts: async (parent, { username }) => {
+    books: async (parent, { username }) => {
       const params = username ? { username } : {};
       return Thought.find(params).sort({ createdAt: -1 });
     },
@@ -66,7 +66,7 @@ const resolvers = {
 
         await User.findByIdAndUpdate(
           { _id: context.user._id },
-          { $push: { thoughts: thought._id } },
+          { $push: { books: thought._id } },
           { new: true }
         );
 
@@ -88,13 +88,13 @@ const resolvers = {
 
       throw new AuthenticationError('You need to be logged in!');
     },
-    addFriend: async (parent, { friendId }, context) => {
+    addBook: async (parent, { bookId }, context) => {
       if (context.user) {
         const updatedUser = await User.findOneAndUpdate(
           { _id: context.user._id },
-          { $addToSet: { friends: friendId } },
+          { $addToSet: { book: bookId } },
           { new: true }
-        ).populate('friends');
+        ).populate('book');
 
         return updatedUser;
       }
